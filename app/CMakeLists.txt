@@ -20,11 +20,28 @@ add_library( # Sets the name of the library.
              # file are automatically included.
              src/main/cpp/native-lib.cpp )
 
+add_library( uvc_static-lib
+             STATIC
+             IMPORTED)
+
+set_target_properties( uvc_static-lib
+                       PROPERTIES IMPORTED_LOCATION
+                       ../../../../src/main/jniLibs/${ANDROID_ABI}/libuvc_static.a)
+
+add_library( usb1.0-lib
+             SHARED
+             IMPORTED)
+
+set_target_properties( usb1.0-lib
+                       PROPERTIES IMPORTED_LOCATION
+                       ../../../../src/main/jniLibs/${ANDROID_ABI}/libusb1.0.so)
+
 # Searches for a specified prebuilt library and stores the path as a
 # variable. Because system libraries are included in the search path by
 # default, you only need to specify the name of the public NDK library
 # you want to add. CMake verifies that the library exists before
 # completing its build.
+
 
 find_library( # Sets the name of the path variable.
               log-lib
@@ -39,6 +56,8 @@ find_library( # Sets the name of the path variable.
 
 target_link_libraries( # Specifies the target library.
                        native-lib
+                       uvc_static-lib
+                       usb1.0-lib
 
                        # Links the target library to the log library
                        # included in the NDK.
